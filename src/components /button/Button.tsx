@@ -2,12 +2,12 @@ import React from 'react'
 
 type Props = {
 	title: string
-	onClick: ()=>void
+	onClick: () => void
 }
 
-export const Button = ({title,onClick}:Props) => {
+export const Button = ({ title, onClick }: Props) => {
 	
-	const OnClickHandler = ()=>{
+	const OnClickHandler = () => {
 		onClick()
 	}
 	
