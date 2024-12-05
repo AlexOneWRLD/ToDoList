@@ -6,13 +6,14 @@ import { Input } from '../input/Input'
 type Props = {
 	title: string
 	tasks: Array<TasksType>
+	filter?:FilterType
 	removeTask: (id: string) => void
 	changeFilter: (filter: FilterType) => void
 	addTask: (title: string) => void
 	changeTaskStatus: (taskId: string, taskStatus: boolean) => void
 }
 
-export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, changeTaskStatus }: Props) => {
+export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, changeTaskStatus,filter }: Props) => {
 	
 	const [taskTitle, setTaskTitle] = useState('')
 	const [error, setError] = useState<string | null>(null)
@@ -37,17 +38,11 @@ export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, chan
 		}
 	}
 	
-	const setCompletedTaskHandler = () => {
-		changeFilter('Completed')
+	const setAllTaskHandler = (filter:FilterType) => {
+		changeFilter(filter)
 	}
 	
-	const setActiveTaskHandler = () => {
-		changeFilter('Active')
-	}
-	
-	const setAllTaskHandler = () => {
-		changeFilter('All')
-	}
+
 	
 	
 	return (
@@ -74,7 +69,7 @@ export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, chan
 					}
 					
 					return (
-						<li key={el.id}>
+						<li key={el.id} className={el.isDone ? 'is-done' : ''}>
 							<input type={'checkbox'}
 							       checked={el.isDone}
 							       onChange={ChangeTaskStatusHandler} />
@@ -85,9 +80,18 @@ export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, chan
 				})}
 			</ul>
 			<div>
-				<Button title={'All'} onClick={setAllTaskHandler} />
-				<Button title={'Active'} onClick={setActiveTaskHandler} />
-				<Button title={'Completed'} onClick={setCompletedTaskHandler} />
+				<Button
+					className={ filter === 'All' ? 'active-filter': ''}
+					title={'All'}
+					onClick={()=>setAllTaskHandler('All')} />
+				<Button
+					className={ filter === 'Active' ? 'active-filter': ''}
+					title={'Active'}
+					onClick={()=>setAllTaskHandler('Active')} />
+				<Button
+					className={ filter === 'Completed' ? 'active-filter': ''}
+					title={'Completed'}
+					onClick={()=>setAllTaskHandler('Completed')} />
 			</div>
 		</div>
 	)
