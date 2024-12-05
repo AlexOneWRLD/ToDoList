@@ -9,26 +9,32 @@ type Props = {
 	removeTask: (id: string) => void
 	changeFilter: (filter: FilterType) => void
 	addTask: (title: string) => void
-	changeTaskStatus:(taskId:string,taskStatus:boolean)=>void
+	changeTaskStatus: (taskId: string, taskStatus: boolean) => void
 }
 
-export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask,changeTaskStatus }: Props) => {
+export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, changeTaskStatus }: Props) => {
 	
 	const [taskTitle, setTaskTitle] = useState('')
+	const [error, setError] = useState<string | null>(null)
 	
 	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		setTaskTitle(e.currentTarget.value)
 	}
 	
 	const onKeyHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+		setError(null)
 		if (e.key === 'Enter') {
 			addTaskHandler()
 		}
 	}
 	
 	const addTaskHandler = () => {
-		addTask(taskTitle)
-		setTaskTitle('')
+		if (taskTitle.trim() !== '') {
+			addTask(taskTitle.trim())
+			setTaskTitle('')
+		} else {
+			setError('Title is required')
+		}
 	}
 	
 	const setCompletedTaskHandler = () => {
@@ -49,11 +55,13 @@ export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask,chang
 			<h3>{title}</h3>
 			<div>
 				<input
+					className={error ? 'error' : ''}
 					value={taskTitle}
 					onChange={onChangeHandler}
 					onKeyDown={onKeyHandler}
 				/>
 				<Button title={'+'} onClick={addTaskHandler} />
+				{error && <div className={'error-message'}>{error}</div>}
 			</div>
 			<ul>
 				{tasks.map((el) => {
@@ -62,7 +70,7 @@ export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask,chang
 					}
 					const ChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
 						const newStatusValue = e.currentTarget.checked
-						changeTaskStatus(el.id,newStatusValue)
+						changeTaskStatus(el.id, newStatusValue)
 					}
 					
 					return (
