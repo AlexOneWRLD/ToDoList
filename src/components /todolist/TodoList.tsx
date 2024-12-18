@@ -4,16 +4,17 @@ import { Button } from '../button/Button'
 import { Input } from '../input/Input'
 
 type Props = {
+	todoListId:string
 	title: string
 	tasks: Array<TasksType>
 	filter?:FilterType
 	removeTask: (id: string) => void
-	changeFilter: (filter: FilterType) => void
+	changeFilter: (filter: FilterType,todoListId:string) => void
 	addTask: (title: string) => void
 	changeTaskStatus: (taskId: string, taskStatus: boolean) => void
 }
 
-export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, changeTaskStatus,filter }: Props) => {
+export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, changeTaskStatus,filter,todoListId }: Props) => {
 	
 	const [taskTitle, setTaskTitle] = useState('')
 	const [error, setError] = useState<string | null>(null)
@@ -38,8 +39,8 @@ export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, chan
 		}
 	}
 	
-	const setAllTaskHandler = (filter:FilterType) => {
-		changeFilter(filter)
+	const setAllTaskHandler = (filter:FilterType,todoListId:string) => {
+		changeFilter(filter,todoListId)
 	}
 	
 
@@ -83,15 +84,15 @@ export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, chan
 				<Button
 					className={ filter === 'All' ? 'active-filter': ''}
 					title={'All'}
-					onClick={()=>setAllTaskHandler('All')} />
+					onClick={()=>setAllTaskHandler('All',todoListId)} />
 				<Button
 					className={ filter === 'Active' ? 'active-filter': ''}
 					title={'Active'}
-					onClick={()=>setAllTaskHandler('Active')} />
+					onClick={()=>setAllTaskHandler('Active',todoListId)} />
 				<Button
 					className={ filter === 'Completed' ? 'active-filter': ''}
 					title={'Completed'}
-					onClick={()=>setAllTaskHandler('Completed')} />
+					onClick={()=>setAllTaskHandler('Completed',todoListId)} />
 			</div>
 		</div>
 	)
