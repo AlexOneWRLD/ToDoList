@@ -8,10 +8,10 @@ type Props = {
 	title: string
 	tasks: Array<TasksType>
 	filter?:FilterType
-	removeTask: (id: string) => void
+	removeTask: (id: string,todoListId:string) => void
 	changeFilter: (filter: FilterType,todoListId:string) => void
-	addTask: (title: string) => void
-	changeTaskStatus: (taskId: string, taskStatus: boolean) => void
+	addTask: (title: string,todoListId:string) => void
+	changeTaskStatus: (taskId: string, taskStatus: boolean,todoListId:string) => void
 }
 
 export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, changeTaskStatus,filter,todoListId }: Props) => {
@@ -32,7 +32,7 @@ export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, chan
 	
 	const addTaskHandler = () => {
 		if (taskTitle.trim() !== '') {
-			addTask(taskTitle.trim())
+			addTask(taskTitle.trim(),todoListId)
 			setTaskTitle('')
 		} else {
 			setError('Title is required')
@@ -62,11 +62,11 @@ export const TodoList = ({ title, tasks, removeTask, changeFilter, addTask, chan
 			<ul>
 				{tasks.map((el) => {
 					const removeTaskHandler = () => {
-						removeTask(el.id)
+						removeTask(el.id,todoListId)
 					}
 					const ChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
 						const newStatusValue = e.currentTarget.checked
-						changeTaskStatus(el.id, newStatusValue)
+						changeTaskStatus(el.id, newStatusValue,todoListId)
 					}
 					
 					return (
