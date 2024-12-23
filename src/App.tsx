@@ -64,6 +64,9 @@ function App() {
 			}
 		)
 	}
+	const removeTodoList = (todoListId:string)=> {
+		setTodolists(todolists.filter(t=> t.id !==todoListId))
+	}
 	
 	
 	return (
@@ -86,12 +89,13 @@ function App() {
 						todoListId={t.id}
 						key={t.id}
 						title={t.title}
+						filter={t.filter}
 						tasks={tasksForTodoList}
 						removeTask={removeTask}
 						changeFilter={changeFilter}
 						addTask={addTask}
 						changeTaskStatus={changeTaskStatus}
-						filter={t.filter}
+						removeTodoList={removeTodoList}
 					/>
 				)
 			})}
