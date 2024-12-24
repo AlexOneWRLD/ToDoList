@@ -3,6 +3,10 @@ import './App.css'
 import { v1 } from 'uuid'
 import { TodoList } from './components /todolist/TodoList'
 
+export type TasksStateType = {
+  [key: string]: TasksType[]
+}
+
 export type FilterType = 'All' | 'Active' | 'Completed'
 
 export type TasksType = {
@@ -27,7 +31,7 @@ function App() {
 		{ id: todoListId2, title: 'What to buy', filter: 'All' }
 	])
 	
-	const [tasks, setTasks] = useState({
+	const [tasks, setTasks] = useState<TasksStateType>({
 		[todoListId1]: [
 			{ id: v1(), title: 'CSS', isDone: true },
 			{ id: v1(), title: 'JS', isDone: true },
